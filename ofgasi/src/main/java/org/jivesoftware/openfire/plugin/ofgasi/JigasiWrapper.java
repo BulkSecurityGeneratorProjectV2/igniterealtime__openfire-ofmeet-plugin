@@ -259,6 +259,9 @@ public class JigasiWrapper implements Module
                             continue;
                         }
                         final File extractedFile = new File( nativeLibFolder, archiveEntry.getName() );
+               if (!extractedFile.toPath().normalize().startsWith(nativeLibFolder.toPath().normalize())) {
+          throw new IOException("Bad zip entry");
+               }
                         Log.debug( "Copying file '{}' from native library into '{}'.", archiveEntry, extractedFile );
 
                         try ( InputStream is = archive.getInputStream( archiveEntry );
